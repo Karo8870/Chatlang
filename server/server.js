@@ -3,8 +3,6 @@ const { WebSocketServer } = require('ws');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const api = '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';
-
 prisma.$connect();
 
 prisma.message.findMany().then(m => console.log(m));
