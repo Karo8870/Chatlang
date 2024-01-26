@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../firebase';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -31,6 +31,7 @@ export default function Login() {
 		await signInWithEmailAndPassword(auth, data.email, data.password)
 			.then((userCredential) => {
 				console.log(userCredential);
+				window.location.href = '/';
 			})
 			.catch((err) => {
 				alert('Email or password incorrect!');
@@ -47,15 +48,9 @@ export default function Login() {
 		<div>
 			<section className='bg-colors-background-50'>
 				<div className='flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0'>
-					<img
-						src={'/logo-landscape.png'}
-						alt={'logo'}
-						width={300}
-						height={100}
-					/>
-					<div className='bg-secondary-100 border-primary-900 w-full space-y-4 rounded-md border p-6 sm:max-w-md sm:p-8 md:mt-0 md:space-y-6'>
+					<div className='bg-secondary-100 border-primary-900 w-full space-y-4 rounded-md border p-6 sm:max-w-md sm:p-8 md:mt-0 md:space-y-6 justify-center'>
 						<h1 className='text-text-950 text-xl font-bold leading-tight tracking-tight md:text-2xl'>
-							Login admin
+							Login
 						</h1>
 						<form
 							className='space-y-4 md:space-y-6'
@@ -95,36 +90,6 @@ export default function Login() {
 					</div>
 				</div>
 			</section>
-			<button
-				onClick={async () => {
-					const auth = getAuth(app);
-					await signInWithEmailAndPassword(
-						auth,
-						'contact@vila-diana.com',
-						'D3rj98s7VLPN'
-					).then((userCredential) => {
-						console.log(userCredential);
-					});
-				}}
-			>
-				sign in
-			</button>
-			<button
-				onClick={() => {
-					const auth = getAuth(app);
-					signOut(auth)
-						.then(() => {
-							// Sign-out successful.
-							console.log('signed out');
-						})
-						.catch((error) => {
-							// An error happened.
-							console.log(error);
-						});
-				}}
-			>
-				sign out
-			</button>
 		</div>
 	);
 }
