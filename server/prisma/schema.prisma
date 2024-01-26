@@ -14,4 +14,11 @@ model Message {
   id   Int    @id @default(autoincrement())
   body String
   room String
+  room ChatRoom @relation(references: [id], fields: [ChatRoomID])
+  ChatRoomID Int
+}
+
+model ChatRoom {
+  id   Int    @id @default(autoincrement())
+  Message[]
 }

@@ -9,6 +9,8 @@ import {
 interface CreateContextModel {
 	text: string;
 	setText: Dispatch<SetStateAction<string>>;
+	messages: any;
+	setMessages: Dispatch<any>;
 }
 
 export const CreateContext = createContext<CreateContextModel | undefined>(
@@ -21,12 +23,15 @@ export const CreateContextProvider = ({
 	children: ReactNode;
 }) => {
 	const [text, setText] = useState<string>('');
+	const [messages, setMessages] = useState<any>([]);
 
 	return (
 		<CreateContext.Provider
 			value={{
 				text,
-				setText
+				setText,
+				messages,
+				setMessages
 			}}
 		>
 			{children}

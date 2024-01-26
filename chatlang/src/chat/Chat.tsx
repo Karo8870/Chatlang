@@ -2,12 +2,15 @@ import useWebSocket from 'react-use-websocket';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CreateContext } from '../context.tsx';
+import { getAuth } from 'firebase/auth';
+import { app } from '../firebase.ts';
 
 const WS_URL = 'ws://localhost:8000';
 
 const Chat = () => {
-	const [messages, setMessages] = useState<any[]>([]);
-	const { text, setText } = useContext(CreateContext)!;
+	const { text, setText, messages, setMessages } = useContext(CreateContext)!;
+
+	const [user, setUser] = useState<string>('');
 
 	let { roomID } = useParams();
 
@@ -48,10 +51,19 @@ const Chat = () => {
 			type: 'chatMessage',
 			data: {
 				body: text,
-				date: new Date()
+				date: new Date(),
+				sender: user
 			}
 		});
 	};
+
+	const auth = getAuth(app);
+
+	useEffect(() => {
+		auth.onAuthStateChanged((user) => {
+			setUser(user?.email!);
+		});
+	}, []);
 
 	return (
 		<div
@@ -61,9 +73,9 @@ const Chat = () => {
 		>
 			<div className={'overflow-auto p-5 space-y-4'}>
 				{messages
-					.filter((msg) => msg.room === roomID)
-					.map((message, index) => (
-						<div key={index} className={'bg-white rounded-md p-3'}>
+					.filter((msg: any) => msg.room === roomID)
+					.map((message: any, index: number) => (
+						<div key={index} className={`${JSON.parse(message.body).sender === user ? 'bg-white' : 'bg-blue-300'} rounded-md p-3`}>
 							<p>{JSON.parse(message.body).body}</p>
 							<p>{new Date(JSON.parse(message.body).date).toLocaleString()}</p>
 						</div>
