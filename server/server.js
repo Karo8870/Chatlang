@@ -1,4 +1,12 @@
 const { WebSocketServer } = require('ws');
+
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+prisma.$connect();
+
+prisma.message.findMany().then(m => console.log(m));
+
 const http = require('http');
 const uuidv4 = require('uuid').v4;
 
@@ -13,13 +21,18 @@ server.listen(port, '0.0.0.0', () => {
 const clients = {};
 const chatRooms = {};
 
-wsServer.on('connection', function handleNewConnection(connection) {
+wsServer.on('connection', async function handleNewConnection(connection) {
 	const userId = uuidv4();
 	clients[userId] = connection;
 
 	console.log(chatRooms, 222);
 
-	connection.send(JSON.stringify({ type: 'chatRooms', data: Object.keys(chatRooms) }));
+	connection.send(JSON.stringify({
+		type: 'chatRooms', data: {
+			chatRooms: Object.keys(chatRooms),
+			messages: await prisma.message.findMany()
+		}
+	}));
 
 	connection.on('message', (message) => {
 		handleMessage(userId, message);
@@ -63,11 +76,19 @@ function handleJoinRoom(userId, roomName) {
 	console.log(`${userId} joined room: ${roomName}`);
 }
 
-function handleChatMessage(userId, message) {
+async function handleChatMessage(userId, message) {
 	const userRoom = findUserRoom(userId);
 	if (userRoom) {
+		console.log(123243546);
+		prisma.message.create({
+			data: {
+				body: JSON.stringify(message),
+				room: userRoom
+			}
+		}).then(test => console.log(test));
 		broadcastToRoom(userRoom, { type: 'chatMessage', userId, message });
 		console.log(`${userId} sent a message in room: ${userRoom}`);
+		console.log(await prisma.message.findMany());
 	}
 }
 
