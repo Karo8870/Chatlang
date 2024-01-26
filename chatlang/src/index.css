@@ -1,6 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600&family=Poppins:wght@400;500;600;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
 .homepage {
   width: 400px;
   height: 400px;
@@ -39,3 +45,31 @@
     cursor: pointer;
   }
 }
+
+/*@font-face {*/
+/*  font-family: 'Poppins';*/
+/*  src: url('/fonts/Poppins-Bold.ttf') format('truetype');*/
+/*  font-weight: 700; !* Bold *!*/
+/*  font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+/*  font-family: 'Poppins';*/
+/*  src: url('/fonts/Poppins-Medium.ttf') format('truetype');*/
+/*  font-weight: 500; !* Medium *!*/
+/*  font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+/*  font-family: 'Poppins';*/
+/*  src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');*/
+/*  font-weight: 600; !* SemiBold *!*/
+/*  font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+/*  font-family: 'Poppins';*/
+/*  src: url('/fonts/Poppins-Regular.ttf') format('truetype');*/
+/*  font-weight: 400; !* Regular *!*/
+/*  font-style: normal;*/
+/*}*/

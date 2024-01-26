@@ -77,6 +77,10 @@ export default {
           950: '#150d05',
         },
       },
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif'],
+        'jakarta': ['Plus Jakarta Sans', 'sans-serif'],
+      },
     },
   },
   plugins: [],

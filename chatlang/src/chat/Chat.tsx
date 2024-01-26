@@ -41,28 +41,27 @@ const Chat = () => {
 	};
 
 	return (
-		<div>
+		<div className={'bg-[#161932] mx-5 w-full flex flex-col justify-between h-full rounded-large'}>
 			<div
-				style={{
-					display: 'flex',
-					flexDirection: 'column'
-				}}
+				className={'overflow-auto p-5 space-y-4'}
 			>
 				{messages.map((message, index) => (
-					<label key={index}>
-						{message.body} - {message.date}
-					</label>
+					<div key={index} className={'bg-white rounded-md p-3'}>
+						<p>{message.body}</p>
+						<p>{new Date(message.date).toLocaleString()}</p>
+					</div>
 				))}
 			</div>
-			<div>
+			<div className={'p-5 flex pb-10'}>
 				<input
 					value={text}
 					onChange={(e) => {
 						setText(e.target.value);
 					}}
-					placeholder='message'
+					placeholder='Write your message here...'
+					className={'border rounded-full p-2 flex-grow'}
 				/>
-				<button onClick={sendMessage}>Send</button>
+				<button onClick={sendMessage} className={'bg-blue-500 text-white rounded-lg p-2 ml-2 w-20'}>Send</button>
 			</div>
 		</div>
 	);
